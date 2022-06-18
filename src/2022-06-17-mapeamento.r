@@ -1,6 +1,5 @@
 # title: 2022 Curadoria de Metadados de Métodos de Análise de Solo
 # people: Vitor, Debora e Luciana
-# date: 2022-06-17
 # description: Preparação de tabela com unidades de medida como encontradas originalmente em
 #   trabalhos de levantamento de solos. A equipe deve indicar o formato correto de expressão das
 #   respectivas unidades. Também deve criar uma nota instrutiva para que uma pessoa consiga mapear
