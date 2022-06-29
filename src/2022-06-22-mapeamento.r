@@ -23,13 +23,19 @@ sheet_name <- indice[["dados_id_febr"]]
 cmd <- paste0("https://docs.google.com/spreadsheets/d/", key, "/gviz/tq?tqx=out:csv&sheet=",
   sheet_name)
 original <- list()
-for (file in cmd) {
-  original[[file]] <-
-    utils::read.table(
-      file = file, header = TRUE, sep = ",", dec = ",", skip = 1)[["Unidade.de.medida"]]
+for (i in seq_along(cmd)) {
+  original[[i]] <-
+    utils::read.table(file = cmd[i], header = TRUE, sep = ",", dec = ",", skip = 1)[, c(1, 3)]
+  idx_duplicated <- which(!duplicated(original[[i]][["Unidade.de.medida"]]))
+  original[[i]] <- original[[i]][idx_duplicated, ]
+  if (nrow(original[[i]]) > 0) {
+    original[[i]][["dados_id_febr"]] <- sheet_name[i]
+  }
 }
 
 # Identify unique measurement units
-original <- unlist(original)
-names(original) <- NULL
-write.table(unique(original), file = "febr-units/data/2022-06-17-mapeamento.csv", row.names = FALSE)
+original <- do.call(rbind, original)
+idx_duplicated <- which(!duplicated(original[["Unidade.de.medida"]]))
+original <- original[idx_duplicated, ]
+write.table(original,
+  file = "febr-units/data/2022-06-22-mapeamento.csv", row.names = FALSE, sep = "\t")
